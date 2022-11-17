@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <conio.h>
+#include <malloc.h>
+#include <locale.h>
+#include <windows.h>
+using namespace std;
+int** G;
+int n;
+
+void podschet(int n,int** G) {
+	int gg = 0;
+	for (int i = 0; i < n; ++i) {
+		for (int j = i; j < n; ++j) {
+			if (G[i][j] != 0) {
+				gg++;
+			}
+		}
+	}
+	printf("Размер графа = %d\n", gg);
+}
+void poisk(int n, int** G) {
+for (int i = 0; i != n; i++) {\
+		int count = 0; // кол-во ребер с данной вершиной
+		for (int j = 0; j != n; j++) {
+			if (G[i][j] == 1) count++;
+		}
+
+		if (count == 0) cout << "Вершина " << i << " изолированная" << endl;
+		else if (count == 1) cout << "Вершина " << i << " концевая" << endl;
+		else if (count == n-1) cout << "Вершина " << i << " доминируцющая" << endl;
+		else cout << "Вершина " << i << " просто вершина" << endl;
+	}
+}
+int main(void)
+
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	printf("Введите размер матрицы:",n);
+	scanf_s("%d", &n);
+	srand(time(NULL));
+	G = (int**)malloc(n * sizeof(int*));
+	for (int i = 0; i <= n; ++i) {
+		G[i] = (int*)malloc(n * sizeof(int));
+	}
+
+	for (int i = 0; i < n; ++i) {
+		for (int j = i; j < n; ++j) {
+			G[i][j] = rand() % 2;
+			if (i == j) {
+				G[i][j] = 0;
+			}
+			G[j][i] = G[i][j];
+		}
+	}
+
+	for (int i = 0; i < n; ++i) {
+
+		for (int j = 0; j < n; ++j) {
+			printf("%d\t", G[i][j]);
+		}
+		printf("\n");
+	}
+	podschet(n, G);
+	poisk(n, G);
+}
